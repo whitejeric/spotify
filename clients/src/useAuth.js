@@ -16,6 +16,7 @@ export default function useAuth(code) {
 			})
 			.catch((err) => {
 				console.log(err);
+				//TODO fix random error being caught
 				//   If fail redirect to home page - Login page
 				// window.location = '/';
 			});
