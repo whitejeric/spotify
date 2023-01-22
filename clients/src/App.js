@@ -4,7 +4,7 @@ import Login from './Login';
 import logo from './logo.svg';
 
 const code = new URLSearchParams(window.location.search).get('code');
-console.log(code);
+//window.location.search returns only query params ie after ?
 
 function App() {
 	return (

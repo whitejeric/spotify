@@ -39,3 +39,7 @@ button:focus-visible {
 .login img {
 	padding: 3%;
 }
+
+#code_key {
+	color: white;
+}
