@@ -101,7 +101,7 @@ button:focus-visible {
 }
 
 .playlists-grid figure {
-	border: 1px solid white;
+	border: 2px solid white;
 	font-size: 1vw;
 	/* display: flex; */
 	margin-block-start: 0.1vw;
