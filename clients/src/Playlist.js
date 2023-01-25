@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-const Playlist = ({ spotify_playlist, select }) => {
-	useEffect(() => {
-		// console.log(spotify_playlist.name, spotify_playlist);
-	});
+const Playlist = ({ spotify_playlist, select, is_selected }) => {
 	return (
-		<figure>
+		<figure
+			onClick={select}
+			style={is_selected ? { backgroundColor: 'aqua' } : {}}
+		>
 			<img
-				onClick={select}
 				src={spotify_playlist.images[0].url}
 				className="playlistCoverPhoto"
 				alt={spotify_playlist.name}
