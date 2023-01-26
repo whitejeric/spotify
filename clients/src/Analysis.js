@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { AnalyticsContext } from './Dashboard';
 
-const Analysis = () => {
-	return <div>Analysis</div>;
+const Analysis = ({ anything }) => {
+	const { lyticState, lyticsReducer } = useContext(AnalyticsContext);
+	useEffect(() => {
+		console.log(lyticState);
+	}, [lyticState, anything]);
+	return (
+		<div>
+			<h1>a{anything.info}</h1>
+		</div>
+	);
 };
 
 export default Analysis;

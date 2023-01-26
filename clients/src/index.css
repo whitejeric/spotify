@@ -166,3 +166,7 @@ button:focus-visible {
 .songBox img {
 	height: 2em;
 }
+
+.analysisModule {
+	border: 1px solid blue;
+}
