@@ -1,24 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import SpotifyWebApi from 'spotify-web-api-node';
-import Playlist from './Playlist';
-import Song from './Song';
+import ActivePlaylist from './ActivePlaylist';
+import IndividualPlaylist from './IndividualPlaylist';
 
 const spotifyApi = new SpotifyWebApi({
 	clientId: '3c1bdeec86614e4c93acbdcf70e7d25b',
 });
 
+/**
+ * TODO add functioning to grab ALL playlists of user, can use:
+ * const [state, setState] = useState({});
+setState(prevState => {
+  // Object.assign would also work
+  return {...prevState, ...updatedValues};
+});
+ * @author EW
+ * @date 2023-01-25
+ * @param { playListArray, accessToken } parm1
+ */
 const Playlists = ({ playListArray, accessToken }) => {
 	const [currentTracks, setCurrentTracks] = useState(null);
 	const [selectedPlaylist, selectPlaylist] = useState(null);
+
 	useEffect(() => {
 		spotifyApi.setAccessToken(accessToken);
+	}, [accessToken]);
+
+	useEffect(() => {
 		if (!selectedPlaylist) return;
-		console.log(selectedPlaylist.name);
+		console.log('selectedPlaylist in Playlists.js: ', selectedPlaylist);
 		let play_track_uri = selectedPlaylist.uri.split(':')[2];
 		spotifyApi.getPlaylistTracks(play_track_uri).then((playlist_tracks) => {
 			setCurrentTracks(playlist_tracks.body.items);
 		});
-	}, [playListArray, selectedPlaylist, accessToken]);
+	}, [selectedPlaylist]);
+
+	useEffect(() => {
+		if (!currentTracks) return;
+		console.log('currentTracks in Playlists.js', currentTracks);
+	}, [currentTracks]);
 
 	return (
 		<div className="playListModule">
@@ -26,7 +46,7 @@ const Playlists = ({ playListArray, accessToken }) => {
 				<h4>User Playlists</h4>
 				{playListArray.map((e) => {
 					return (
-						<Playlist
+						<IndividualPlaylist
 							spotify_playlist={e}
 							key={e.uri}
 							select={() => selectPlaylist(e)}
@@ -37,20 +57,7 @@ const Playlists = ({ playListArray, accessToken }) => {
 			</div>
 			<div className="activePlaylist">
 				{currentTracks ? (
-					<div>
-						<h4>{selectedPlaylist.name}</h4>
-						<div className="songBox">
-							<div>#</div>
-							<div></div>
-							<div>Song:</div>
-							<div>Artist:</div>
-							<div>Album:</div>
-							<div>Duration:</div>
-						</div>
-						{currentTracks.map((e, i) => {
-							return <Song song_data={e} key={e.uri} index={i} />;
-						})}
-					</div>
+					<ActivePlaylist playlist={selectedPlaylist} tracks={currentTracks} />
 				) : (
 					''
 				)}
