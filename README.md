@@ -1,2 +1,2 @@
 # spotify
-![alt text](/assets/images/spot1_26_23.png)
+![alt text](spot12623.png)
