@@ -20,6 +20,7 @@ const Dashboard = ({ code }) => {
 	const didLoad = useRef(false);
 	const [current_subject, setSubject] = useState({});
 	const topic = useRef('No selection');
+	const topic_details = useRef('No selection');
 
 	//TODO TURN THIS INTO A FUCKING MODULE JESUS CHRIST FUCKING CHRIST
 	function lyticsReducer(state, action) {
@@ -30,12 +31,15 @@ const Dashboard = ({ code }) => {
 				//the playlist we will be examining
 				spotifyApi.getPlaylistTracks(state.target).then((target_tracks) => {
 					let song_ids = []; //an array of ids of individual songs ids
+					let song_names = [];
 					target_tracks.body.items.forEach((song) => {
 						song_ids.push(song.track.id);
+						song_names.push(song.track.name);
 					});
 					//features is a spotify api specific term instead of properties
 					spotifyApi.getAudioFeaturesForTracks(song_ids).then((e) => {
-						topic.current = action.payload.name;
+						topic.current = action.payload;
+						topic_details.current = song_names;
 						setSubject(e.body.audio_features);
 					});
 				});
@@ -45,7 +49,7 @@ const Dashboard = ({ code }) => {
 				state.target = action.payload.track.id;
 				topic.current = 'Processing song... ';
 				spotifyApi.getAudioFeaturesForTrack(state.target).then((e) => {
-					topic.current = action.payload.track.name;
+					topic.current = action.payload.track;
 					setSubject(e.body);
 				});
 				return { ...state };
@@ -87,6 +91,7 @@ const Dashboard = ({ code }) => {
 					key={'TODO MAKE A KEY'}
 					content={current_subject}
 					topic={topic.current}
+					details={topic_details.current}
 				/>
 
 				{user_playlists && (
