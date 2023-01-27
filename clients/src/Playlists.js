@@ -28,7 +28,7 @@ const Playlists = ({ playListArray, accessToken }) => {
 
 	useEffect(() => {
 		if (!selectedPlaylist) return;
-		console.log('selectedPlaylist in Playlists.js: ', selectedPlaylist);
+		// ! console.log('selectedPlaylist in Playlists.js: ', selectedPlaylist);
 		let play_track_uri = selectedPlaylist.uri.split(':')[2];
 		spotifyApi.getPlaylistTracks(play_track_uri).then((playlist_tracks) => {
 			setCurrentTracks(playlist_tracks.body.items);
@@ -37,7 +37,7 @@ const Playlists = ({ playListArray, accessToken }) => {
 
 	useEffect(() => {
 		if (!currentTracks) return;
-		console.log('currentTracks in Playlists.js', currentTracks);
+		// ! console.log('currentTracks in Playlists.js', currentTracks);
 	}, [currentTracks]);
 
 	return (

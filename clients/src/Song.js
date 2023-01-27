@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import { AnalyticsContext } from './Dashboard';
 
 const Song = ({ song_data, index }) => {
-	const { state, dispatch } = useContext(AnalyticsContext);
+	const { dispatch } = useContext(AnalyticsContext);
 	function duration(millis) {
 		var minutes = Math.floor(millis / 60000);
 		var seconds = ((millis % 60000) / 1000).toFixed(0);
 		return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
 	}
 	const handleClick = () => {
-		dispatch({ type: 'song', payload: song_data.track });
+		dispatch({ type: 'song', payload: song_data });
 	};
 	return (
 		<div className="songBox" onClick={handleClick}>

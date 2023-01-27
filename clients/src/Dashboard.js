@@ -18,48 +18,33 @@ const Dashboard = ({ code }) => {
 	const [show_user, setUserVisibility] = useState(false);
 	const [user_playlists, setPlaylists] = useState(null);
 	const didLoad = useRef(false);
-	const updateAnalysis = useRef(null);
+	const [current_item, setCurrentItem] = useState({});
 
 	//TODO TURN THIS INTO A FUCKING MODULE JESUS CHRIST FUCKING CHRIST
 	function lyticsReducer(state, action) {
-		let item_count = 0;
-		console.log('lyticsReducer in Dashboard.js: ', action.payload);
 		switch (action.type) {
 			case 'playlist':
 				state.target = action.payload.id;
 				//the playlist we will be examining
 				spotifyApi.getPlaylistTracks(state.target).then((target_tracks) => {
-					let songs = state.target;
 					let song_ids = []; //an array of ids of individual songs ids
 					target_tracks.body.items.forEach((song) => {
 						song_ids.push(song.track.id);
 					});
-					item_count = song_ids.length;
-					console.log(
-						'songs is an array of ids',
-						song_ids,
-						' length',
-						item_count
-					);
 					//features is a spotify api specific term instead of properties
-					let PLAYLISTFEATURES = null;
-					spotifyApi
-						.getAudioFeaturesForTracks(song_ids)
-						.then((e) => {
-							PLAYLISTFEATURES = e.body.audio_features;
-						})
-						.then(() => {
-							console.log(PLAYLISTFEATURES, 'as');
-							state.info = JSON.stringify(PLAYLISTFEATURES[0]);
-						});
+					spotifyApi.getAudioFeaturesForTracks(song_ids).then((e) => {
+						setCurrentItem(e.body.audio_features);
+					});
 				});
-
-				return state;
+				return { ...state };
 
 			case 'song':
-				state.target = action.payload;
-				state.info = action.payload;
-				return state;
+				state.target = action.payload.track.id;
+				spotifyApi.getAudioFeaturesForTrack(state.target).then((e) => {
+					setCurrentItem(e.body);
+				});
+				return { ...state };
+
 			default:
 				return 'NEGATIVE';
 		}
@@ -67,7 +52,6 @@ const Dashboard = ({ code }) => {
 
 	const [lyticState, dispatch] = useReducer(lyticsReducer, {
 		target: null,
-		info: null,
 	});
 
 	useEffect(() => {
@@ -84,15 +68,8 @@ const Dashboard = ({ code }) => {
 		didLoad.current = true;
 	}, [accessToken]);
 
-	function helper() {
-		console.log('helper in Dashboard.js :', lyticState);
-		lyticsReducer(lyticState, { type: 'piss', payload: 'piss' });
-		updateAnalysis.current = lyticState;
-	}
-
 	return (
 		<AnalyticsContext.Provider value={{ lyticState, dispatch }}>
-			<button onClick={() => helper()}>piss</button>
 			<div className="access_codes" style={{ display: 'none' }}>
 				Code: {code}
 			</div>
@@ -100,7 +77,7 @@ const Dashboard = ({ code }) => {
 				<div>
 					<button onClick={() => setUserVisibility(!show_user)}>User</button>
 				</div>
-				<Analysis key={lyticState.info} anything={lyticState} />
+				<Analysis key={'TODO MAKE A KEY'} content={current_item} />
 				{user_details && show_user && <User userDetails={user_details} />}
 				{user_playlists && (
 					<Playlists playListArray={user_playlists} accessToken={accessToken} />
