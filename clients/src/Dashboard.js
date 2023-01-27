@@ -18,13 +18,15 @@ const Dashboard = ({ code }) => {
 	const [show_user, setUserVisibility] = useState(false);
 	const [user_playlists, setPlaylists] = useState(null);
 	const didLoad = useRef(false);
-	const [current_item, setCurrentItem] = useState({});
+	const [current_subject, setSubject] = useState({});
+	const topic = useRef('No selection');
 
 	//TODO TURN THIS INTO A FUCKING MODULE JESUS CHRIST FUCKING CHRIST
 	function lyticsReducer(state, action) {
 		switch (action.type) {
 			case 'playlist':
 				state.target = action.payload.id;
+				topic.current = 'Processing playlist... ';
 				//the playlist we will be examining
 				spotifyApi.getPlaylistTracks(state.target).then((target_tracks) => {
 					let song_ids = []; //an array of ids of individual songs ids
@@ -33,15 +35,18 @@ const Dashboard = ({ code }) => {
 					});
 					//features is a spotify api specific term instead of properties
 					spotifyApi.getAudioFeaturesForTracks(song_ids).then((e) => {
-						setCurrentItem(e.body.audio_features);
+						topic.current = action.payload.name;
+						setSubject(e.body.audio_features);
 					});
 				});
 				return { ...state };
 
 			case 'song':
 				state.target = action.payload.track.id;
+				topic.current = 'Processing song... ';
 				spotifyApi.getAudioFeaturesForTrack(state.target).then((e) => {
-					setCurrentItem(e.body);
+					topic.current = action.payload.track.name;
+					setSubject(e.body);
 				});
 				return { ...state };
 
@@ -77,8 +82,13 @@ const Dashboard = ({ code }) => {
 				<div>
 					<button onClick={() => setUserVisibility(!show_user)}>User</button>
 				</div>
-				<Analysis key={'TODO MAKE A KEY'} content={current_item} />
-				{user_details && show_user && <User userDetails={user_details} />}
+				<User userDetails={user_details} visibility={show_user} />
+				<Analysis
+					key={'TODO MAKE A KEY'}
+					content={current_subject}
+					topic={topic.current}
+				/>
+
 				{user_playlists && (
 					<Playlists playListArray={user_playlists} accessToken={accessToken} />
 				)}

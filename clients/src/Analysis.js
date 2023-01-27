@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
-const Analysis = ({ content }) => {
-	const refined_content = useRef(null);
+const Analysis = ({ content, topic }) => {
+	const refined_content = useRef({ averages: null, timeline: null });
 
 	function parse(data) {
 		let averages = {};
@@ -33,8 +33,16 @@ const Analysis = ({ content }) => {
 		}
 	}, [content]);
 	return (
-		<div className="analysisModule">
-			<p>{JSON.stringify(refined_content)}</p>
+		<div id="analysis">
+			<h2>{topic}</h2>
+			<div className="analysisModule">
+				<div>
+					Timeline Graph: {JSON.stringify(refined_content.current.timeline)}
+				</div>
+				<div>
+					Averages Radial: {JSON.stringify(refined_content.current.averages)}
+				</div>
+			</div>
 		</div>
 	);
 };

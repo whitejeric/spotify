@@ -157,7 +157,6 @@ button:focus-visible {
 
 .songBox > * {
 	text-overflow: ellipsis;
-	overflow: hidden;
 	white-space: nowrap;
 	overflow: hidden;
 	padding-left: 1em;
@@ -167,6 +166,19 @@ button:focus-visible {
 	height: 2em;
 }
 
+#analysis {
+	border: 1px solid white;
+}
+
 .analysisModule {
 	border: 1px solid blue;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.analysisModule > * {
+	text-overflow: ellipsis;
+
+	overflow: hidden;
+	padding-left: 1em;
 }
