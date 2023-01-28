@@ -84,7 +84,12 @@ const Dashboard = ({ code }) => {
 			</div>
 			<div className="dashboard">
 				<div>
-					<button onClick={() => setUserVisibility(!show_user)}>User</button>
+					<button
+						className="spotButton"
+						onClick={() => setUserVisibility(!show_user)}
+					>
+						User
+					</button>
 				</div>
 				<User userDetails={user_details} visibility={show_user} />
 				<Analysis

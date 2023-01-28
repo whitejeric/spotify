@@ -1,15 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import SpotGraph from './SpotGraph';
 
 const Analysis = ({ content, topic, details }) => {
 	const refined_content = useRef({ averages: null, timeline: null });
 	const hasBeenParsed = useRef(false);
+	const [graph_type, setGraphType] = useState(null);
 
-	// name: 'Page A',
-	// 	uv: 4000,
-	// 	pv: 2400,
-	// 	amt: 2400,
-	// },
 	function parse(data) {
 		console.log({ topic });
 		console.log({ details });
@@ -46,6 +42,35 @@ const Analysis = ({ content, topic, details }) => {
 			{ graph_data }
 		);
 	}
+
+	function dropDownItems() {
+		return (
+			<div className="playlistDropDownMenu">
+				<button onClick={() => setGraphType('danceability')}>
+					Danceability
+				</button>
+				<button onClick={() => setGraphType('energy')}>Energy</button>
+				<button onClick={() => setGraphType('key:mode')}>Key</button>
+				<button onClick={() => setGraphType('loudness')}>Loudness</button>
+				<button onClick={() => setGraphType('speechiness')}>Speechiness</button>
+				<button onClick={() => setGraphType('acousticness')}>
+					Acousticness
+				</button>
+				<button onClick={() => setGraphType('instrumentalness')}>
+					Instrumentalness
+				</button>
+				<button onClick={() => setGraphType('liveness')}>Liveness</button>
+				<button onClick={() => setGraphType('valence')}>Valence</button>
+				<button onClick={() => setGraphType('time_signature:tempo')}>
+					Tempo
+				</button>
+				<button onClick={() => setGraphType('time_signature')}>
+					Time Signature
+				</button>
+			</div>
+		);
+	}
+
 	useEffect(() => {
 		// console.log('useEffect in Analyis:', content);
 		if (topic === 'No selection') return;
@@ -60,10 +85,14 @@ const Analysis = ({ content, topic, details }) => {
 		<div id="analysis">
 			<h2>{topic.name}</h2>
 			<div className="analysisModule">
-				<div>
+				<div className="playlistGraph">
 					{hasBeenParsed.current && (
-						<SpotGraph data={refined_content.current.graph_data} />
+						<SpotGraph
+							data={refined_content.current.graph_data}
+							data_key={graph_type}
+						/>
 					)}
+					<div className="graphOptions">{dropDownItems()}</div>
 					{/* Timeline Graph: {JSON.stringify(refined_content.current.timeline)} */}
 				</div>
 				<div>

@@ -10,7 +10,7 @@ function Login() {
 			/>
 			<br />
 			<a href={loginUrl}>
-				<button>LOGIN</button>
+				<button className="spotButton">LOGIN</button>
 			</a>
 		</div>
 	);
