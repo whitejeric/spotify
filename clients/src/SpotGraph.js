@@ -1,18 +1,46 @@
 import React from 'react';
 import {
-	Area,
-	AreaChart,
-	CartesianGrid,
+	Line,
+	LineChart,
 	ResponsiveContainer,
 	Tooltip,
 	XAxis,
 	YAxis,
 } from 'recharts';
 
+const majorKeys = [
+	'C',
+	'Db',
+	'D',
+	'Eb',
+	'E',
+	'F',
+	'Gb',
+	'G',
+	'Ab',
+	'A',
+	'Bb',
+	'B',
+];
+const minorKeys = [
+	'Cm',
+	'C#m',
+	'Dm',
+	'Ebm',
+	'Em',
+	'Fm',
+	'F#m',
+	'Gm',
+	'G#m',
+	'Am',
+	'Bbm',
+	'Bm',
+];
+
 const SpotGraph = ({ data, data_key }) => {
 	return (
 		<ResponsiveContainer minHeight={200} minWidth={50} aspect={16 / 9}>
-			<AreaChart
+			<LineChart
 				width={100}
 				height={100}
 				data={data}
@@ -26,31 +54,32 @@ const SpotGraph = ({ data, data_key }) => {
 				{/* <CartesianGrid /> */}
 				<XAxis dataKey={{ data_key }} label={data_key} />
 				<YAxis hide />
+				<>
+					<Line
+						type="monotone"
+						dataKey="name"
+						stackId="0"
+						stroke="#82ca9d"
+						fill="#82ca9d"
+					/>
+					<Line
+						type="monotone"
+						dataKey={data_key.split(':')[0]}
+						stackId="1"
+						stroke="#82ca9d"
+						fill="#82ca9d"
+					/>
+					<Line
+						type="monotone"
+						dataKey={data_key.split(':')[1]}
+						stackId="1"
+						stroke="#82cccc"
+						fill="#82cccc"
+					/>
+				</>
 
-				<Area
-					type="monotone"
-					dataKey="name"
-					stackId="0"
-					stroke="black"
-					fill="#82ca9d"
-				/>
-
-				<Area
-					type="monotone"
-					dataKey={data_key.split(':')[0]}
-					stackId="1"
-					stroke="black"
-					fill="#82ca9d"
-				/>
-				<Area
-					type="monotone"
-					dataKey={data_key.split(':')[1]}
-					stackId="1"
-					stroke="#82cccc"
-					fill="#82cccc"
-				/>
 				<Tooltip position={{ x: 0, y: 10 }} />
-			</AreaChart>
+			</LineChart>
 		</ResponsiveContainer>
 	);
 };

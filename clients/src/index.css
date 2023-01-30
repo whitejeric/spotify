@@ -191,5 +191,11 @@ code {
 
 .playlistDropDownMenu {
 	display: flex;
+	flex-direction: right;
+}
+
+.radialGraph {
+	display: flex;
 	flex-direction: column;
+	height: 25vw;
 }
