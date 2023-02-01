@@ -138,7 +138,8 @@ const Analysis = ({ content, topic, details }) => {
 
 		refined_content.current = { averages, timeline, graph_data, radial_data };
 		hasBeenParsed.current = true;
-		console.log('Parsed from Analysis/parse: ', { averages }, { radial_data });
+		// console.log('Parsed from Analysis/parse: ', { averages }, { radial_data });
+		console.log(averages.valence * 100 + '%');
 	}
 
 	function dropDownItems() {
@@ -166,7 +167,7 @@ const Analysis = ({ content, topic, details }) => {
 		// console.log('useEffect in Analyis:', content);
 		if (topic === 'No selection') return;
 		if (content.length) {
-			//has more than one element
+			//has morse than one element
 			parse(content);
 		} else {
 			parse([content]);
