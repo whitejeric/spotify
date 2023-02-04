@@ -37,6 +37,13 @@ const minorKeys = [
 	'Bm',
 ];
 
+/**
+ * Creates a linegraph depicting Spotify feature data for a given playlist
+ * @author EW
+ * @date 2023-02-04
+ * @param {object} data contains the retrieved and formatted json data from the API request
+ * @param {string} data_key a string denoting which Spotify feature(s) to be rendered
+ */
 const SpotGraph = ({ data, data_key }) => {
 	return (
 		<ResponsiveContainer minHeight={200} minWidth={50} aspect={16 / 9}>
