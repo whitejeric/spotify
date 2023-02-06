@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/server
 /clients/node_modules
 /server/node_modules
 /.pnp
@@ -12,7 +13,6 @@
 
 # production
 /build
-/server
 
 # misc
 .DS_Store
