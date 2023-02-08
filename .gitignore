@@ -2,9 +2,9 @@
 
 # dependencies
 /node_modules
-/server
 /clients/node_modules
 /server/node_modules
+/server/secret.json
 /.pnp
 .pnp.js
 
